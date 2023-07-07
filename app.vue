@@ -64,9 +64,6 @@ onMounted(() => {
     <div class="app">
       <pre>{{ scriptUrl }}</pre>
       <hr>
-      <h1>
-        Banner Preview
-      </h1>
       <form @submit.prevent="preview">
         <select v-model="form.affiliate">
           <option v-for="affiliate in affiliates">
