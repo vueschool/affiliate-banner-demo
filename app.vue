@@ -28,26 +28,33 @@ const scriptUrl = ref('')
 
 const form = ref({
   affiliate: route.query?.affiliate || affiliates[0],
-  date: createDateObject(route.query?.emulateDate, route.query?.emulateHour)
+  date: createDateObject(route.query?.emulateDate, route.query?.emulateHour),
+  isPremiumUser: route.query?.condition === 'isPremiumUser'
 })
 
 function preview () {
   const affiliate = form.value.affiliate
   const date = form.value.date
+  const isPremiumUser = form.value.isPremiumUser && affiliate === 'vueschool'
 
   const emulateDate = formatDate(date)
   const emulateHour = date.toLocaleString('en-GB', { timeStyle: 'short' })
 
-  const target = `?affiliate=${affiliate}&emulateDate=${emulateDate}&emulateHour=${emulateHour}`
+  let target = `?affiliate=${affiliate}&emulateDate=${emulateDate}&emulateHour=${emulateHour}`
+  if (isPremiumUser) target = target + '&condition=isPremiumUser'
   window.location.href = target
 }
 
 onMounted(() => {
-  const { emulateDate, emulateHour, affiliate } = route.query
+  const { emulateDate, emulateHour, affiliate, condition } = route.query
   let url = `https://vueschool.io/banner.js?affiliate=${affiliate || affiliates[0]}&type=top`
 
   if (emulateDate && emulateHour) {
     url = url + `&emulateDate=${emulateDate}&emulateHour=${emulateHour}`
+  }
+
+  if (condition) {
+    url = url + `&condition=${condition}`
   }
 
   scriptUrl.value = url
@@ -71,6 +78,10 @@ onMounted(() => {
           </option>
         </select>
         <VueDatePicker v-model="form.date"></VueDatePicker>
+        <label v-if="form.affiliate === 'vueschool'">
+          <input v-model="form.isPremiumUser" type="checkbox" name="isPremiumUser">
+          Logged in user is premium
+        </label>
         <button>
           Preview
         </button>
@@ -89,6 +100,10 @@ select {
   width: 100%;
   margin-top: 16px;
   margin-bottom: 16px;
+}
+
+label {
+  margin-top: 16px;
 }
 
 pre {
