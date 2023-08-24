@@ -22,7 +22,7 @@ function createDateObject (dateString = null, timeString = null) {
 
 const route = useRoute()
 
-const affiliates = ['vueschool', 'vuejsdevelopers', 'vuejsfeed', 'vuerouter', 'vuejs', 'vueuse', 'dmitripavlutin', 'vuejobs', 'masteringnuxt']
+const affiliates = ['vueschool', 'vuejsdevelopers', 'vuejsfeed', 'vuerouter', 'vuejs', 'vueuse', 'dmitripavlutin', 'vuejobs', 'masteringnuxt', 'testing']
 
 const scriptUrl = ref('')
 
