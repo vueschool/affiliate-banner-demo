@@ -47,7 +47,7 @@ function preview () {
 
 onMounted(() => {
   const { emulateDate, emulateHour, affiliate, condition } = route.query
-  let url = `https://vueschool.io/banner.js?affiliate=${affiliate || affiliates[0]}&type=top`
+  let url = `https://staging.vueschool.io/banner.js?affiliate=${affiliate || affiliates[0]}&type=top`
 
   if (emulateDate && emulateHour) {
     url = url + `&emulateDate=${emulateDate}&emulateHour=${emulateHour}`
