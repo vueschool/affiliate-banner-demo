@@ -29,19 +29,22 @@ const scriptUrl = ref('')
 const form = ref({
   affiliate: route.query?.affiliate || affiliates[0],
   date: createDateObject(route.query?.emulateDate, route.query?.emulateHour),
-  isPremiumUser: route.query?.condition === 'isPremiumUser'
+  isPremiumUser: route.query?.condition === 'isPremiumUser',
+  isFreeUser: route.query?.condition === 'isFreeUser'
 })
 
 function preview () {
   const affiliate = form.value.affiliate
   const date = form.value.date
   const isPremiumUser = form.value.isPremiumUser && affiliate === 'vueschool'
+  const isFreeUser = form.value.isFreeUser && affiliate === 'vueschool'
 
   const emulateDate = formatDate(date)
   const emulateHour = date.toLocaleString('en-GB', { timeStyle: 'short' })
 
   let target = `?affiliate=${affiliate}&emulateDate=${emulateDate}&emulateHour=${emulateHour}`
   if (isPremiumUser) target = target + '&condition=isPremiumUser'
+  if (isFreeUser) target = target + '&condition=isFreeUser'
   window.location.href = target
 }
 
@@ -82,6 +85,10 @@ onMounted(() => {
         <label v-if="form.affiliate === 'vueschool'">
           <input v-model="form.isPremiumUser" type="checkbox" name="isPremiumUser">
           Logged in user is premium
+        </label>
+        <label v-if="form.affiliate === 'vueschool'">
+          <input v-model="form.isFreeUser" type="checkbox" name="isFreeUser">
+          Logged in user is free
         </label>
         <button>
           Preview
